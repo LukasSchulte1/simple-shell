@@ -13,6 +13,8 @@ char promt[]= "myshell> ";
 char *programs[] = {"ls","ps","cal"};
 int exitstatus;
 
+
+
 int main(int argc, char **argv)
 {
 	char input[MAX_LENGTHS];
@@ -27,37 +29,18 @@ int main(int argc, char **argv)
 		fprintf(stderr,"Cant Read stdin\n");
 		return 1;
 	}
-	if((strlen(input)!=2) || ((input[0]<'1')||(input[0]>'4')))//checks if length is 2 and the char is a number
+	if(!strcmp(input, "exit\n"))
 	{
-		writeInvalidInput();
-		goto Input_start;
-	}
-	if(input[0]=='4')
-	{
+		printf("Exit\n");
 		exit(0);
 	}
-	program=input[0]-'1';
 	
-	char tempargs[MAX_LENGTHS];
-	printf("You can add up to %d arguments. Leave blank or enter \"no\" to execute without any arguments\n",MAX_ARGS);
-	if(fgets(tempargs, MAX_LENGTHS-20, stdin)==NULL)
-	{
-		fprintf(stderr,"Cant Read stdin\n");
-		return 1;
-	}
-	if(strcmp(tempargs, "no\n")==0)
-	{
-		tempargs[0]=0;
-	}
 	char *args[MAX_ARGS];
 	char **next=args;
 
 	char targs[MAX_LENGTHS];
-	strcpy(targs, programs[program]);
-	strcat(targs, " ");
-	strcat(targs,tempargs);
 	
-	char *temp =strtok(targs, " \n");
+	char *temp =strtok(input, " \n");
 	while (temp!=NULL)
 	{
 		*next++=temp;
@@ -85,7 +68,6 @@ int main(int argc, char **argv)
 		exitstatus = WEXITSTATUS(status);
 		printf("Exitcode: %d\n", exitstatus);
 	}
-	
 	goto Input_start;
 	return 0;
 }
