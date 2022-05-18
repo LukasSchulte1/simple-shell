@@ -6,11 +6,13 @@
 #include <errno.h>
 
 #include "shellmessages.h"
+#include "inputprocessing.h"
 
-char promt[]= "myshell> ";
+
+
+char promt[]= "simpleshell> ";
 #define MAX_LENGTHS 128
 #define MAX_ARGS 16
-char *programs[] = {"ls","ps","cal"};
 int exitstatus;
 
 
@@ -38,15 +40,7 @@ int main(int argc, char **argv)
 	char *args[MAX_ARGS];
 	char **next=args;
 
-	char targs[MAX_LENGTHS];
-	
-	char *temp =strtok(input, " \n");
-	while (temp!=NULL)
-	{
-		*next++=temp;
-		temp = strtok(NULL, " \n");
-	}
-	*next =NULL;
+	process_input(args, input);	
 	
 	int pid=fork();
 	if(pid==-1)

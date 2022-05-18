@@ -18,3 +18,4 @@ void writeCommandNotFound(char* command)
 {
 	fprintf(stderr, "%s: command not found\n", command);
 }
+
